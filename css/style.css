@@ -1,0 +1,143 @@
+:root {
+    --bg: #0a0a0a; --card: rgba(255, 255, 255, 0.03);
+    --accent: #6366f1; --text: #e2e8f0; --sub: #94a3b8;
+    --qr-filter: invert(0.9) hue-rotate(180deg);
+}
+
+body.light-theme {
+    --bg: #f8fafc; --card: rgba(0, 0, 0, 0.03);
+    --accent: #4f46e5; --text: #1e293b; --sub: #64748b;
+    --qr-filter: none;
+}
+
+body {
+    background-color: var(--bg); color: var(--text);
+    font-family: 'Inter', sans-serif; display: flex;
+    justify-content: center; align-items: center; min-height: 100vh; margin: 0;
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+.container { width: 100%; max-width: 480px; padding: 40px 20px; text-align: center; }
+.logo-container { cursor: pointer; margin-bottom: 24px; }
+.profile-pic { width: 110px; height: 110px; object-fit: contain; transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease; }
+.tier-container { display: flex; gap: 10px; margin-bottom: 20px; }
+.tier-card {
+    transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+    flex: 1; padding: 12px 8px; border-radius: 12px; background: var(--card);
+    border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+}
+
+.tier-card.active { border-color: var(--accent); background: rgba(99, 102, 241, 0.1); transform: translateY(-2px); }
+.tier-card h4 { margin: 0; font-size: 0.75rem; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; }
+.tier-card .tier-amt { font-size: 1.1rem; font-weight: 800; margin-top: 4px; display: block; }
+.currency-toggle { margin-bottom: 20px; }
+select { 
+    background: var(--card); color: var(--text); border: 1px solid rgba(255,255,255,0.1); 
+    padding: 10px; border-radius: 12px; cursor: pointer; outline: none; width: 100%;
+    font-size: 0.9rem;
+}
+
+.crypto-card {
+    background: var(--card); border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 22px; border-radius: 18px; text-align: left; margin-bottom: 14px;
+    backdrop-filter: blur(10px); transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+.crypto-card:hover .chart-container {
+    filter: grayscale(0) brightness(1);
+}
+
+.crypto-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.symbol { font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+.price { font-size: 0.75rem; opacity: 0.6; font-family: monospace; }
+.input-group { position: relative; margin-bottom: 15px; }
+input {
+    width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--accent);
+    color: var(--text); font-family: monospace; padding: 10px 0; font-size: 1.2rem; outline: none;
+}
+
+.unit-label { position: absolute; right: 0; bottom: 10px; font-size: 0.8rem; color: var(--sub); font-weight: bold; }
+.actions { display: flex; gap: 10px; }
+.btn {
+    flex: 1; padding: 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+.btn:hover { background: var(--accent); color: white; }
+.social-links { margin-top: 40px; display: flex; justify-content: center; gap: 30px; border-top: 1px solid var(--card); padding-top: 25px; }
+.social-links a { color: var(--text); font-size: 1.6rem; transition: 0.2s; }
+.social-links a:hover { color: var(--accent); }
+
+#qr-overlay, #success-overlay {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.copyable-code {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.75rem;
+    color: var(--text);
+    word-break: break-all;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: block;
+    position: relative;
+}
+
+.copyable-code:hover {
+    border-color: var(--accent);
+    background: rgba(99, 102, 241, 0.05);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+}
+
+.copyable-code:active {
+    transform: scale(0.98);
+}
+
+.copy-feedback {
+    position: absolute;
+    top: -25px;
+    right: 10px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.inline-hint {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inline-hint:hover {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
